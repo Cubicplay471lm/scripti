@@ -1,0 +1,1 @@
+﻿loadstring(game:HttpGet("https://raw.githubusercontent.com/SWIMHUBISWIMMING/swimhub/refs/heads/main/free_trident.lua"))()

@@ -1,0 +1,1 @@
+﻿loadstring(game:HttpGet("https://raw.githubusercontent.com/BlossomHub123/Plants-Vs-Brainrots/refs/heads/main/.lua", true))()
