@@ -1,11 +1,45 @@
--- Лоадер для RFmy.lua на основе Rayfield
+-- Лоадер для скриптов на основе Rayfield
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- Основные сервисы
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
+-- Базовый URL репозитория
+local BaseURL = "https://raw.githubusercontent.com/Cubicplay471lm/scripti/refs/heads/main/"
 
--- Создание окна лоадера
+-- Список скриптов
+local Scripts = {
+    {Name = "🎯 RFmy.lua", File = "RFmy.lua"},
+    {Name = "📜 myScript.lua", File = "myScript.lua"},
+    {Name = "🎮 99 ночей", File = "99nights.lua"},
+    {Name = "🎮 99 ночей 2", File = "99nigga2.lua"},
+    {Name = "🎯 Aim", File = "aim.lua"},
+    {Name = "📦 All Scripts", File = "allscr.lua"},
+    {Name = "🏝️ Alone", File = "alone.lua"},
+    {Name = "🖱️ Auto Click", File = "autoclick.lua"},
+    {Name = "🧱 Blox", File = "blox.lua"},
+    {Name = "🏝️ Booga Booga", File = "booga%20booga.lua"},
+    {Name = "⚔️ BSS", File = "bss.lua"},
+    {Name = "🚜 Build Tractor", File = "buildtractor.lua"},
+    {Name = "🎨 CB Скин", File = "cbсикин.lua"},
+    {Name = "🎨 CB Сиси", File = "cbсиси.lua"},
+    {Name = "🚂 Dead Rails", File = "dead%20rails.lua"},
+    {Name = "⚔️ Forsaken", File = "forsaken.lua"},
+    {Name = "💡 Full Bright", File = "fuulbright.lua"},
+    {Name = "🎯 Hyper Shot", File = "hypershot.lua"},
+    {Name = "♾️ Inf Yield", File = "inf%20yield.lua"},
+    {Name = "🖋️ Ink", File = "ink.lua"},
+    {Name = "⚔️ MTD", File = "MTD.lua"},
+    {Name = "⚔️ PVB", File = "pvb.lua"},
+    {Name = "🏃 Roams", File = "roams.lua"},
+    {Name = "⚔️ Rost Alpha", File = "rostalpha.lua"},
+    {Name = "💰 Steal", File = "steal.lua"},
+    {Name = "💰 Steal 20", File = "steal20.lua"},
+    {Name = "🔱 Trident", File = "trident.lua"},
+    {Name = "🎯 Trident AIM", File = "tridentAIM.lua"},
+    {Name = "👁️ Wallhack", File = "wh.lua"},
+    {Name = "🔪 MM2", File = "мм2.lua"},
+    {Name = "🔵 Си", File = "си.lua"}
+}
+
+-- Создание окна лоадера с ключ-системой
 local LoaderWindow = Rayfield:CreateWindow({
     Name = "📦 Script Loader",
     LoadingTitle = "Загрузчик скриптов",
@@ -20,7 +54,16 @@ local LoaderWindow = Rayfield:CreateWindow({
         Invite = "noinvitelink",
         RememberJoins = true
     },
-    KeySystem = false
+    KeySystem = true,
+    KeySettings = {
+        Title = "Script Loader Auth",
+        Subtitle = "Key System",
+        Note = "Введите ключ для доступа",
+        FileName = "LoaderKey",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"Admin12", "SaBplyr67", "MCplyr64", "11Li-20_dA"}
+    }
 })
 
 -- Создаем вкладку для скриптов
@@ -28,120 +71,30 @@ local ScriptsTab = LoaderWindow:CreateTab("📜 Скрипты", 4483362458)
 
 ScriptsTab:CreateSection("Основные скрипты")
 
--- Кнопка загрузки RFmy.lua
-local RFmyButton = ScriptsTab:CreateButton({
-    Name = "🎯 Загрузить RFmy.lua",
-    Callback = function()
-        Rayfield:Notify({
-            Title = "Загрузка",
-            Content = "Загружаю RFmy.lua...",
-            Duration = 2,
-            Image = 4483362458
-        })
-        
-        -- Загружаем скрипт
-        local success, err = pcall(function()
-            -- Если скрипт на GitHub или другом хостинге, используйте:
-            -- loadstring(game:HttpGet("YOUR_URL_TO_RFmy.lua"))()
-            
-            -- Если скрипт локально, можно использовать:
-            -- Для локального файла через executor обычно используется другой метод
-            -- Здесь предполагаем, что скрипт доступен через URL
-            
-            -- ВАРИАНТ 1: Если скрипт на GitHub/хостинге
-            -- loadstring(game:HttpGet("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/RFmy.lua"))()
-            
-            -- ВАРИАНТ 2: Если скрипт в папке executor'а (зависит от executor)
-            -- Для Xeno и подобных executor'ов может потребоваться другой метод
-            
-            -- ВАРИАНТ 3: Прямая загрузка через loadstring с содержимым файла
-            -- Это работает если executor поддерживает чтение локальных файлов
-            
-            -- Для примера используем загрузку через HTTP (нужно указать ваш URL)
-            -- Если у вас есть URL к файлу, раскомментируйте следующую строку:
-            -- loadstring(game:HttpGet("YOUR_URL_HERE"))()
-            
-            -- Если файл локальный и executor поддерживает file:read(), используйте:
-            local scriptContent = readfile("RFmy.lua")
-            if scriptContent then
-                loadstring(scriptContent)()
-            else
-                error("Не удалось прочитать файл RFmy.lua")
-            end
-        end)
-        
-        if success then
-            Rayfield:Notify({
-                Title = "Успех",
-                Content = "RFmy.lua успешно загружен!",
-                Duration = 3,
-                Image = 4483362458
-            })
-        else
-            Rayfield:Notify({
-                Title = "Ошибка",
-                Content = "Ошибка загрузки: " .. tostring(err),
-                Duration = 5,
-                Image = 4483362458
-            })
-            warn("Ошибка загрузки RFmy.lua:", err)
-        end
-    end,
-})
-
--- Альтернативная кнопка с загрузкой через URL (если файл на хостинге)
-ScriptsTab:CreateSection("Загрузка через URL")
-
-local URLInput = ScriptsTab:CreateInput({
-    Name = "URL скрипта",
-    PlaceholderText = "Вставьте URL к скриptу",
-    RemoveTextAfterFocusLost = false,
-    Callback = function(Text)
-        -- Сохраняем URL для использования
-    end,
-})
-
-local LoadFromURLButton = ScriptsTab:CreateButton({
-    Name = "🌐 Загрузить по URL",
-    Callback = function()
-        local url = URLInput:Get()
-        if url and url ~= "" then
+-- Создаем кнопки для каждого скрипта
+for _, script in ipairs(Scripts) do
+    ScriptsTab:CreateButton({
+        Name = script.Name,
+        Callback = function()
             Rayfield:Notify({
                 Title = "Загрузка",
-                Content = "Загружаю скрипт по URL...",
+                Content = "Загружаю " .. script.Name .. "...",
                 Duration = 2,
                 Image = 4483362458
             })
             
-            local success, err = pcall(function()
-                loadstring(game:HttpGet(url))()
-            end)
+            local scriptURL = BaseURL .. script.File
+            loadstring(game:HttpGet(scriptURL))()
             
-            if success then
-                Rayfield:Notify({
-                    Title = "Успех",
-                    Content = "Скрипт успешно загружен!",
-                    Duration = 3,
-                    Image = 4483362458
-                })
-            else
-                Rayfield:Notify({
-                    Title = "Ошибка",
-                    Content = "Ошибка загрузки: " .. tostring(err),
-                    Duration = 5,
-                    Image = 4483362458
-                })
-            end
-        else
             Rayfield:Notify({
-                Title = "Ошибка",
-                Content = "Введите URL скрипта!",
+                Title = "Успех",
+                Content = script.Name .. " успешно загружен!",
                 Duration = 3,
                 Image = 4483362458
             })
-        end
-    end,
-})
+        end,
+    })
+end
 
 -- Информационная секция
 ScriptsTab:CreateSection("Информация")
@@ -151,7 +104,7 @@ local InfoButton = ScriptsTab:CreateButton({
     Callback = function()
         Rayfield:Notify({
             Title = "О лоадере",
-            Content = "Этот лоадер загружает скрипты на основе Rayfield UI.\nИспользуйте кнопку выше для загрузки RFmy.lua",
+            Content = "Лоадер скриптов на основе Rayfield UI.\nВыберите скрипт из списка для загрузки.",
             Duration = 5,
             Image = 4483362458
         })
@@ -168,4 +121,3 @@ task.spawn(function()
         Image = 4483362458
     })
 end)
-
